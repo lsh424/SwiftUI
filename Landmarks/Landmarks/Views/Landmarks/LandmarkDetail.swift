@@ -8,10 +8,17 @@
 import SwiftUI
 
 struct LandmarkDetail: View {
+    @EnvironmentObject var modelData: ModelData
     var landmark: Landmark
     
+    var landmarkIndex: Int {
+        modelData.landmarks.firstIndex(where: {
+            $0.id == landmark.id
+        })!
+    }
+    
     var body: some View {
-        VStack {
+        ScrollView {
             MapView(coordinate: landmark.locationCoordinate)
                 .ignoresSafeArea(edges: .top) // 화면의 상단 가장자리까지 확대 (safeArea 무시)
                 .frame(height: 300) // width 생략시 뷰 width에 맞춰짐
@@ -21,10 +28,15 @@ struct LandmarkDetail: View {
                 .padding(.bottom, -130) // 뷰 하단을 기준으로 -130만큼 패딩 지정
             
             VStack(alignment: .leading) {
-                Text(landmark.name)
-                    .font(.title)
-                    .fontWeight(.medium)
-                    .foregroundColor(.green)
+                HStack {
+                    Text(landmark.name)
+                        .font(.title)
+                        .fontWeight(.medium)
+                        .foregroundColor(.green)
+                    FavoriteButton(isSet: $modelData.landmarks[landmarkIndex].isFavorite)
+                }
+                
+                
                 HStack {
                     Text(landmark.park)
                         .font(.subheadline)
@@ -51,6 +63,6 @@ struct LandmarkDetail: View {
 
 struct LandmarkDetail_Previews: PreviewProvider {
     static var previews: some View {
-        LandmarkDetail(landmark: landmarks[0])
+        LandmarkDetail(landmark: ModelData().landmarks[0])
     }
 }

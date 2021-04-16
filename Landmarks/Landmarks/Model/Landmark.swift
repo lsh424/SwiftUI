@@ -15,6 +15,7 @@ struct Landmark: Hashable, Codable, Identifiable {
     var park: String
     var state: String
     var description: String
+    var isFavorite: Bool
     
     // 이 모델을 사용할 사용자는 image에만 관심 있으므로 imageName은 Private으로 설정
     private var imageName: String
