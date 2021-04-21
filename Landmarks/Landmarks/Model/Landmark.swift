@@ -38,6 +38,11 @@ struct Landmark: Hashable, Codable, Identifiable {
         Image(imageName)
     }
     
+    // 없을수도 있기에 옵셔널
+    var featureImage: Image? {
+        isFeatured ? Image(imageName + "_feature") : nil
+    }
+    
     // 역시 locationCoordinate 연산 프로퍼티를 위해서만 사용되기 때문에, 직접 접근할 일이 없으므로 private으로 설정
     private var coordinates: Coordinates
     
